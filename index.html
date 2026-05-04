@@ -1,22 +1,202 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mi Dashboard</title>
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: Arial, sans-serif; background: #f4f4f4; }
-    h1 { text-align: center; padding: 20px; color: #333; }
-    .container { width: 100%; max-width: 1200px; margin: 0 auto; }
-    iframe { width: 100%; height: 600px; border: none; }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portafolio de Análisis de Datos</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: #0f0f11;
+    color: #e8e4dc;
+    min-height: 100vh;
+  }
+
+  .noise {
+    position: fixed; inset: 0; pointer-events: none; z-index: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    opacity: 0.4;
+  }
+
+  .accent-blob {
+    position: fixed; border-radius: 50%; filter: blur(120px); pointer-events: none; z-index: 0;
+  }
+  .blob-1 { width: 400px; height: 400px; background: #2a1f5e; top: -100px; right: -80px; opacity: 0.6; }
+  .blob-2 { width: 300px; height: 300px; background: #0f3d2e; bottom: 100px; left: -80px; opacity: 0.5; }
+
+  main { position: relative; z-index: 1; max-width: 960px; margin: 0 auto; padding: 4rem 2rem 6rem; }
+
+  header { margin-bottom: 5rem; }
+
+  .eyebrow {
+    font-size: 11px; font-weight: 500; letter-spacing: 0.18em;
+    text-transform: uppercase; color: #7c6fff;
+    margin-bottom: 1.2rem;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .eyebrow::after { content: ''; flex: 1; max-width: 40px; height: 1px; background: #7c6fff; opacity: 0.5; }
+
+  h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(2.6rem, 5vw, 4rem);
+    line-height: 1.1;
+    color: #f0ece3;
+    margin-bottom: 1.4rem;
+  }
+  h1 em { font-style: italic; color: #a09aff; }
+
+  .subtitle {
+    font-size: 1rem; font-weight: 300; color: #8a8680;
+    max-width: 480px; line-height: 1.7;
+  }
+
+  .divider {
+    margin: 4rem 0;
+    height: 1px; background: linear-gradient(to right, #2a2830, #3d3950, #2a2830);
+  }
+
+  .section-label {
+    font-size: 11px; font-weight: 500; letter-spacing: 0.15em;
+    text-transform: uppercase; color: #4e4b58;
+    margin-bottom: 2rem;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .card {
+    background: #18171d;
+    border: 1px solid #27252e;
+    border-radius: 16px;
+    padding: 1.8rem;
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    transition: border-color 0.25s, transform 0.25s, background 0.25s;
+    position: relative;
+    overflow: hidden;
+  }
+  .card::before {
+    content: ''; position: absolute; inset: 0; border-radius: 16px;
+    opacity: 0; transition: opacity 0.3s;
+    background: radial-gradient(circle at 50% 0%, rgba(124,111,255,0.08), transparent 60%);
+  }
+  .card:hover { border-color: #3f3c52; transform: translateY(-3px); background: #1c1b22; }
+  .card:hover::before { opacity: 1; }
+
+  .card-icon {
+    width: 42px; height: 42px; border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 1.4rem; font-size: 20px;
+  }
+
+  .icon-purple { background: #1e1a40; border: 1px solid #3a3270; }
+  .icon-teal   { background: #0d2620; border: 1px solid #1a4238; }
+  .icon-amber  { background: #261c0a; border: 1px solid #4a3410; }
+  .icon-coral  { background: #2a1310; border: 1px solid #4e2418; }
+
+  .card-tag {
+    font-size: 10px; font-weight: 500; letter-spacing: 0.12em;
+    text-transform: uppercase; padding: 3px 9px;
+    border-radius: 4px; display: inline-block; margin-bottom: 0.8rem;
+  }
+  .tag-purple { background: #221e45; color: #9e97ff; border: 1px solid #3a3470; }
+  .tag-teal   { background: #0d2820; color: #3dcca4; border: 1px solid #1a4238; }
+  .tag-amber  { background: #261e0a; color: #e6a83a; border: 1px solid #4a3a14; }
+  .tag-coral  { background: #2a1510; color: #e07a5a; border: 1px solid #4e2c1c; }
+
+  .card h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.2rem; color: #ece8df;
+    margin-bottom: 0.6rem; line-height: 1.3;
+  }
+
+  .card p {
+    font-size: 0.84rem; color: #6b6875; line-height: 1.6; font-weight: 300;
+    margin-bottom: 1.4rem;
+  }
+
+  .card-link {
+    font-size: 12px; font-weight: 500; letter-spacing: 0.05em;
+    color: #5a5670;
+    display: flex; align-items: center; gap: 5px;
+    transition: color 0.2s;
+  }
+  .card:hover .card-link { color: #9e97ff; }
+  .card-link svg { width: 12px; height: 12px; transition: transform 0.2s; }
+  .card:hover .card-link svg { transform: translate(2px, -2px); }
+
+  footer {
+    margin-top: 5rem; padding-top: 2rem;
+    border-top: 1px solid #21202a;
+    display: flex; justify-content: space-between; align-items: center;
+    flex-wrap: wrap; gap: 1rem;
+  }
+  footer p { font-size: 12px; color: #3e3c48; }
+  .footer-dot { display: inline-block; width: 5px; height: 5px; border-radius: 50%; background: #7c6fff; margin: 0 6px; vertical-align: middle; }
+</style>
 </head>
 <body>
-  <h1>NOM-035 RIESGO PSICOSOCIAL</h1>
-  <div class="container">
-   <iframe title="RETO" width="600" height="373.5" src="https://app.powerbi.com/view?r=eyJrIjoiYTQyM2M4NzctNWI5MS00ZmMxLWE1Y2EtYzMwMTA2YzdlNzczIiwidCI6ImY5NGJmNGQ5LTgwOTctNDc5NC1hZGY2LWE1NDY2Y2EyODU2MyIsImMiOjR9" frameborder="0" allowFullScreen="true"></iframe>
+<div class="noise"></div>
+<div class="accent-blob blob-1"></div>
+<div class="accent-blob blob-2"></div>
+
+<main>
+  <header>
+    <p class="eyebrow">Portafolio</p>
+    <h1>Análisis de datos<br>con <em>Power BI</em></h1>
+    <p class="subtitle">Colección de tableros interactivos enfocados en recursos humanos, operaciones y resultados financieros.</p>
+  </header>
+
+  <p class="section-label">Tableros publicados</p>
+
+  <div class="grid">
+
+    <a href="riesgo-psicosocial/index.html" class="card">
+      <div class="card-icon icon-purple">🧠</div>
+      <span class="card-tag tag-purple">Recursos humanos</span>
+      <h2>Riesgo psicosocial</h2>
+      <p>Evaluación de factores de riesgo en el entorno laboral: estrés, carga de trabajo y clima organizacional.</p>
+      <span class="card-link">Ver tablero <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M1 11L11 1M11 1H4M11 1v7"/></svg></span>
+    </a>
+
+    <a href="cumplimiento-visita/index.html" class="card">
+      <div class="card-icon icon-teal">🗺️</div>
+      <span class="card-tag tag-teal">Operaciones</span>
+      <h2>Cumplimiento de visita a tienda</h2>
+      <p>Seguimiento de cobertura y frecuencia de visitas por zona, representante y periodo.</p>
+      <span class="card-link">Ver tablero <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M1 11L11 1M11 1H4M11 1v7"/></svg></span>
+    </a>
+
+    <a href="estado-resultados/index.html" class="card">
+      <div class="card-icon icon-amber">📊</div>
+      <span class="card-tag tag-amber">Finanzas</span>
+      <h2>Estado de resultados</h2>
+      <p>Ingresos, costos y utilidades comparados por periodo, con análisis de variación presupuestal.</p>
+      <span class="card-link">Ver tablero <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M1 11L11 1M11 1H4M11 1v7"/></svg></span>
+    </a>
+
+    <a href="ventas/index.html" class="card">
+      <div class="card-icon icon-coral">📈</div>
+      <span class="card-tag tag-coral">Comercial</span>
+      <h2>Ventas</h2>
+      <p>Desempeño de ventas por producto, canal y región, con tendencias mensuales y metas.</p>
+      <span class="card-link">Ver tablero <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M1 11L11 1M11 1H4M11 1v7"/></svg></span>
+    </a>
 
   </div>
+
+  <footer>
+    <p>Desarrollado con Power BI <span class="footer-dot"></span> Publicado en GitHub Pages</p>
+    <p>tu-usuario.github.io</p>
+  </footer>
+</main>
 </body>
 </html>
