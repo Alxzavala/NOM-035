@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NOM-035 Riesgo psicosocial</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'DM Sans', sans-serif; background: #0f0f11; color: #e8e4dc; min-height: 100vh; }
+    .topbar {
+      display: flex; align-items: center; gap: 1rem;
+      padding: 1.2rem 2rem; border-bottom: 1px solid #21202a;
+      background: #0f0f11; position: sticky; top: 0; z-index: 10;
+    }
+    .back {
+      font-size: 12px; font-weight: 500; color: #5a5670;
+      text-decoration: none; display: flex; align-items: center; gap: 5px;
+      transition: color 0.2s;
+    }
+    .back:hover { color: #9e97ff; }
+    .back svg { width: 12px; height: 12px; }
+    .sep { color: #2a2830; font-size: 14px; }
+    .page-title { font-size: 13px; color: #6b6875; font-weight: 300; }
+    .frame-wrap { padding: 1.5rem 2rem 3rem; }
+    iframe {
+      width: 100%; height: 80vh; min-height: 500px;
+      border: 1px solid #21202a; border-radius: 12px;
+    }
+    .hint { margin-top: 1rem; font-size: 11px; color: #3e3c48; text-align: center; }
+  </style>
+</head>
+<body>
+
+  <nav class="topbar">
+    <a href="../index.html" class="back">
+      <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5">
+        <path d="M11 6H1M1 6l4-4M1 6l4 4"/>
+      </svg>
+      Portafolio
+    </a>
+    <span class="sep">/</span>
+    <span class="page-title">NOM-035 Riesgo psicosocial</span>  <!-- ← cambia esto -->
+  </nav>
+
+  <div class="frame-wrap">
+    <iframe title="RETO" width="600" height="373.5" src="https://app.powerbi.com/view?r=eyJrIjoiYTQyM2M4NzctNWI5MS00ZmMxLWE1Y2EtYzMwMTA2YzdlNzczIiwidCI6ImY5NGJmNGQ5LTgwOTctNDc5NC1hZGY2LWE1NDY2Y2EyODU2MyIsImMiOjR9" frameborder="0" allowFullScreen="true"></iframe>
+    <p class="hint">Visualización interactiva · Power BI</p>
+  </div>
+
+</body>
+</html>
